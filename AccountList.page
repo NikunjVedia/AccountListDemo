@@ -1,0 +1,47 @@
+<apex:page controller="AccountListController" tabStyle="Contact">
+  
+  <apex:form >
+  <apex:pageMessages />
+  <apex:outputLabel value="Search Account with Name : " for="search" style="font-weight:bold;"/>
+  <apex:inputText value="{!SearchString}" id="search"/>
+  &nbsp;
+  <Apex:CommandButton value="Search" action="{!prepareData}"/>  
+  <br/><br/>
+  <apex:outputPanel id="listArea">
+  <apex:pageBlock >
+  <apex:repeat value="{!accountList}" var="accountSO">
+  <apex:pageBlockSection title="{!accountSO.Name}">
+  
+      <apex:pageBlockSectionItem >
+          <apex:outputLabel for="Field1" Value="Account Number"/><apex:outputField value="{!accountSO.AccountNumber}" id="Field1"/>
+      </apex:pageBlockSectionItem>
+      
+      <apex:pageBlockSectionItem >
+          <apex:outputLabel for="Field2" Value="Rating"/><apex:outputField value="{!accountSO.Rating}" id="Field2"/>
+      </apex:pageBlockSectionItem>
+      
+      <apex:pageBlockSectionItem >
+          <apex:outputLabel for="Field3" Value="Website"/><apex:outputField value="{!accountSO.Website}" id="Field3"/>
+      </apex:pageBlockSectionItem>
+      
+      <apex:pageBlockSectionItem >
+          <apex:outputLabel for="Field4" Value="Annual Revenue"/><apex:outputField value="{!accountSO.AnnualRevenue}" id="Field4"/>
+      </apex:pageBlockSectionItem>
+      
+      <apex:pageblockTable value="{!mapOfAccountToContacts[accountSO.id]}" var="contactSO" title="Contacts" rendered="{!contactDisplayMap[accountSO.id]}" width="100%">
+          <apex:column >
+              <apex:commandLink action="{!deleteContact}" value="Delete">
+                   <apex:param name="Contactid" assignTo="{!Contactid}" value="{!contactSO.id}"/>
+              </apex:commandLink>
+          </apex:column>
+          <apex:Column value="{!contactSO.Name}"/>
+          <apex:Column value="{!contactSO.title}"/>
+          <apex:Column value="{!contactSO.email}"/>
+      </apex:pageblockTable>
+   
+  </apex:pageBlockSection>
+  </apex:repeat>
+  </apex:pageBlock>
+  </apex:outputPanel>
+  </apex:form>
+</apex:page>
